@@ -6,6 +6,7 @@ import torch.nn as nn
 from torchvision import transforms
 from PIL import Image
 from flask import Flask, request, jsonify
+from torchvision.models import resnet18
 import requests
 
 app = Flask(__name__)
@@ -14,7 +15,7 @@ app = Flask(__name__)
 class SimpleModel(nn.Module):
     def __init__(self, num_classes):
         super().__init__()
-        self.base = torch.hub.load('pytorch/vision:v0.14.0', 'resnet18', pretrained=False)
+        self.base = resnet18(weights=None)
         self.base.fc = nn.Linear(self.base.fc.in_features, num_classes)
 
     def forward(self, x):
